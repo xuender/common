@@ -1,0 +1,17 @@
+### 用户信息
+http://localhost:6180/api/profile
+### 修改昵称
+patch http://localhost:6180/api/profile/nick
+content-type: application/json
+
+"ender"
+### 修改密码
+patch http://localhost:6180/api/profile/password
+content-type: application/json
+
+{
+  "old":"123",
+  "password": "123"
+}
+
+

@@ -15,18 +15,21 @@ import (
 
 // App 应用
 type App struct {
-	DB     *gorm.DB
-	CS     *Service
-	Router Router
-	Log    *golog.Logger
+	DB    *gorm.DB
+	CS    *Service
+	AS    *AuthService
+	APIer APIer
+
+	Log *golog.Logger
 }
 
 // NewApp 新建应用
-func NewApp(db *gorm.DB, cs *Service, router Router) *App {
+func NewApp(db *gorm.DB, cs *Service, as *AuthService, apier APIer) *App {
 	return &App{
-		DB:     db,
-		CS:     cs,
-		Router: router,
+		DB:    db,
+		CS:    cs,
+		AS:    as,
+		APIer: apier,
 	}
 }
 
@@ -96,10 +99,10 @@ func (a *App) Run(c *Config) {
 		}
 		ctx.Next()
 	})
-	// API
-	a.Router.API().Party(v1)
 	// AUTH
-	a.Router.Auth().Party(app.Party("/auth", cors.AllowAll()).AllowMethods(iris.MethodOptions))
+	a.AS.Party(app.Party("/auth", cors.AllowAll()).AllowMethods(iris.MethodOptions))
+	// API
+	a.APIer.API().Party(v1)
 	// 启动
 	app.Run(iris.Addr(c.Address))
 }

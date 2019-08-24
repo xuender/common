@@ -1,0 +1,16 @@
+### 注册
+POST http://localhost:6180/auth/register
+content-type: application/json
+
+{
+  "phone":"13963111111",
+  "password":"111111"
+}
+### 登录
+POST http://localhost:6180/auth/login
+content-type: application/json
+
+{
+  "phone":"13963111111",
+  "password":"111111"
+}
