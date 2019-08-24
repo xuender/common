@@ -15,7 +15,7 @@ type AuthService struct {
 	US      *UserService
 	TS      *wx.TokenService
 	Created Created
-	URL     string
+	WxURL   string
 }
 
 // NewAuthService 新建身份认证服务
@@ -157,7 +157,7 @@ func (s *AuthService) wxLogin(ctx iris.Context) {
 		s.DB.Create(&code)
 		ctx.Application().Logger().Info("生成JWT", code.ID)
 		// 登录
-		ctx.Redirect(s.URL + code.ID)
+		ctx.Redirect(s.WxURL + code.ID)
 	} else {
 		ctx.Application().Logger().Error("Token获取失败", err)
 		ctx.JSON(iris.Map{"msg": err.Error()})

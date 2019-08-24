@@ -9,4 +9,5 @@ type Config struct {
 	Redirect  string // 重定向目录
 	LogDir    string // 日志目录
 	StaticDir string // 静态资源目录
+	WxURL     string // 微信首页
 }

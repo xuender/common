@@ -103,6 +103,8 @@ func (a *App) Run(c *Config) {
 	a.AS.Party(app.Party("/auth", cors.AllowAll()).AllowMethods(iris.MethodOptions))
 	// API
 	a.APIer.API().Party(v1)
+	// 首页
+	a.AS.WxURL = c.WxURL
 	// 启动
 	app.Run(iris.Addr(c.Address))
 }
