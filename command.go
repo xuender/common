@@ -18,8 +18,8 @@ func NewCommand(cmd *cobra.Command) *Command {
 }
 
 // Int 读取配置Int
-func (c *Command) Int(cmd *cobra.Command, name string) int {
-	f := cmd.Flag(name)
+func (c *Command) Int(name string) int {
+	f := c.cmd.Flag(name)
 	// 命令行优先
 	if f.Changed {
 		if i, err := strconv.Atoi(f.Value.String()); err == nil {
@@ -36,8 +36,8 @@ func (c *Command) Int(cmd *cobra.Command, name string) int {
 }
 
 // String 读取配置String
-func (c *Command) String(cmd *cobra.Command, name string) string {
-	f := cmd.Flag(name)
+func (c *Command) String(name string) string {
+	f := c.cmd.Flag(name)
 	// 命令行优先
 	if f.Changed {
 		return f.Value.String()
@@ -50,8 +50,8 @@ func (c *Command) String(cmd *cobra.Command, name string) string {
 }
 
 // Bool 读取配置String
-func (c *Command) Bool(cmd *cobra.Command, name string) bool {
-	f := cmd.Flag(name)
+func (c *Command) Bool(name string) bool {
+	f := c.cmd.Flag(name)
 	b, _ := strconv.ParseBool(f.Value.String())
 	// 命令行优先
 	if f.Changed {
