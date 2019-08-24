@@ -14,18 +14,19 @@ type AuthService struct {
 	CS      *Service
 	US      *UserService
 	TS      *wx.TokenService
-	Created Created
+	Creater Creater
 	WxURL   string
 }
 
 // NewAuthService 新建身份认证服务
-func NewAuthService(db *gorm.DB, cs *Service, us *UserService, ts *wx.TokenService) *AuthService {
+func NewAuthService(db *gorm.DB, cs *Service, us *UserService, ts *wx.TokenService, creater Creater) *AuthService {
 	db.AutoMigrate(&Code{}) // 临时认证
 	return &AuthService{
-		DB: db,
-		CS: cs,
-		US: us,
-		TS: ts,
+		DB:      db,
+		CS:      cs,
+		US:      us,
+		TS:      ts,
+		Creater: creater,
 	}
 }
 
@@ -72,7 +73,7 @@ func (s *AuthService) register(ctx iris.Context) {
 	user.Phone = form.Phone
 	user.Password = form.Password
 	s.DB.Create(&user)
-	s.Created.Create(&user)
+	s.Creater.Create(&user)
 	// var plan Plan
 	// plan.Title = "我的大计划"
 	// s.PS.create(&plan, &user)
@@ -144,7 +145,7 @@ func (s *AuthService) wxLogin(ctx iris.Context) {
 			user = *u
 			ctx.Application().Logger().Info("用户信息", user)
 			s.DB.Create(user)
-			s.Created.Create(&user)
+			s.Creater.Create(&user)
 			// var plan Plan
 			// plan.Title = "我的大计划"
 			// s.PS.create(&plan, user)
