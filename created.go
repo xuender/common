@@ -1,6 +1,6 @@
 package common
 
-// Created 创建
-type Created interface {
+// Creater 创建
+type Creater interface {
 	Create(user *User)
 }
