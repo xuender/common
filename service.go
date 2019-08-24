@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/jinzhu/gorm"
 	"github.com/kataras/golog"
 	"github.com/kataras/iris"
 	"gopkg.in/go-playground/validator.v9"
@@ -20,6 +21,23 @@ type Service struct {
 // NewService 新建公共服务
 func NewService() *Service {
 	return &Service{validate: validator.New()}
+}
+
+// Filter 数据库过滤
+func (s *Service) Filter(db *gorm.DB, ctx iris.Context) *gorm.DB {
+	if limit := s.URLInt(ctx, "limit", ""); limit > 0 {
+		if limit > 10 {
+			limit = 10
+		}
+		db = db.Limit(limit)
+	} else {
+		db = db.Limit(10)
+	}
+	// 起始限制
+	if offset := s.URLInt(ctx, "offset", ""); offset > 0 {
+		db = db.Offset(offset)
+	}
+	return db
 }
 
 // Get 请求
