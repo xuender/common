@@ -52,7 +52,7 @@ require (
 	github.com/leodido/go-urn v1.1.0 // indirect
 	github.com/lithammer/shortuuid v3.0.0+incompatible
 	github.com/moul/http2curl v1.0.0 // indirect
-	github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72
+	github.com/spaolacci/murmur3 v1.1.0
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/viper v1.4.0
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190809123943-df4f5c81cb3b // indirect
