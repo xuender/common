@@ -1,0 +1,31 @@
+### 问题列表
+http://localhost:6180/api/issues
+### 问题
+http://localhost:6180/api/issues/1
+### 创建问题
+POST http://localhost:6180/api/issues
+content-type: application/json
+
+{
+  "title": "速度太慢",
+  "description": "打开应用的速度慢。"
+}
+
+### 修改问题
+PUT http://localhost:6180/api/issues/1
+content-type: application/json
+
+{
+  "title": "速度太慢了",
+  "description": "打开应用的速度慢的很。"
+}
+### 状态开启
+PATCH http://localhost:6180/api/issues/1/state
+content-type: application/json
+
+2
+### 状态关闭
+PATCH http://localhost:6180/api/issues/1/state
+content-type: application/json
+
+1

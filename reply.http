@@ -1,0 +1,17 @@
+### 回复列表
+http://localhost:6180/api/replies?issue=1
+### 创建回复
+POST http://localhost:6180/api/replies?issue=1
+content-type: application/json
+
+{
+  "content": "你好，感谢您对我们的帮助"
+}
+
+### 修改回复
+PUT http://localhost:6180/api/replies/eXmcAyrnBJzJqirDeRWs4J
+content-type: application/json
+
+{
+  "content": "我们感谢你"
+}
