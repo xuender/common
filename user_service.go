@@ -18,29 +18,26 @@ func NewUserService(db *gorm.DB, secret []byte) *UserService {
 	return &UserService{DB: db, Secret: secret}
 }
 
-// find 查找用户
-func (s *UserService) find(unionid string) *User {
-	var user User
-	s.DB.Where("unionid = ?", unionid).First(&user)
-	return &user
+// Find 查找用户,参数是用户指针
+func (s *UserService) Find(unionid string, user interface{}) {
+	s.DB.Where("unionid = ?", unionid).First(user)
 }
 
 // Token 生成token
-func (s *UserService) Token(u *User) {
+func (s *UserService) Token(userID string) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id": u.ID,
+		"id": userID,
 	})
-	u.Password, _ = token.SignedString(s.Secret)
+	jwt, _ := token.SignedString(s.Secret)
+	return jwt
 }
 
 // GetUser 获取用户
-func (s *UserService) GetUser(ctx iris.Context) *User {
-	var user User
+func (s *UserService) GetUser(ctx iris.Context, user interface{}) {
 	id := s.GetUserID(ctx)
 	if id != "" {
-		s.DB.Where("id=?", id).First(&user)
+		s.DB.Where("id=?", id).First(user)
 	}
-	return &user
 }
 
 // GetUserID 获取用户ID
@@ -50,14 +47,17 @@ func (s *UserService) GetUserID(ctx iris.Context) string {
 
 // get 获取用户信息
 func (s *UserService) get(ctx iris.Context) {
-	ctx.JSON(s.GetUser(ctx))
+	var user User
+	s.GetUser(ctx, &user)
+	ctx.JSON(user)
 }
 
 // patchNick 修改昵称
 func (s *UserService) patchNick(ctx iris.Context) {
 	var nick string
 	ctx.ReadJSON(&nick)
-	user := s.GetUser(ctx)
+	var user User
+	s.GetUser(ctx, &user)
 	user.Nick = nick
 	s.DB.Model(user).Update("nick", nick)
 	ctx.JSON(user)
@@ -67,7 +67,8 @@ func (s *UserService) patchNick(ctx iris.Context) {
 func (s *UserService) patchPassword(ctx iris.Context) {
 	var m map[string]string
 	ctx.ReadJSON(&m)
-	user := s.GetUser(ctx)
+	var user User
+	s.GetUser(ctx, &user)
 	user.Password = m["old"]
 	// user.Cipher = user.encode(user.ID)
 	if user.Check() {
