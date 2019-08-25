@@ -65,7 +65,7 @@ func (a *App) Run(c *Config) {
 	// 日志配置
 	if c.LogDir != "" {
 		f, err := os.OpenFile(
-			fmt.Sprintf("%s/big-plan.log", c.LogDir),
+			fmt.Sprintf("%s/%s.log", c.LogDir, c.Name),
 			os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 		if err != nil {
 			panic(err)

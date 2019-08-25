@@ -2,6 +2,7 @@ package common
 
 // Config 配置信息
 type Config struct {
+	Name      string // 应用名称
 	Address   string // 监听端口
 	Secret    []byte // JWT密钥
 	MockID    string // 模拟用户ID
