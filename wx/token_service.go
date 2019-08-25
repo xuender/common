@@ -66,7 +66,13 @@ func (s *TokenService) SaveToken(code string, web bool) (*Token, error) {
 	var token Token
 	err := s.get(url, &token)
 	if err == nil && token.Openid != "" {
-		s.DB.Save(&token)
+		var old Token
+		s.DB.Where("openid = ?", token.Openid).First(&old)
+		if old.Openid == "" {
+			s.DB.Create(&token)
+		} else {
+			s.DB.Update(&token)
+		}
 	}
 	return &token, err
 }
