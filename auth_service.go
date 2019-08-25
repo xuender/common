@@ -5,7 +5,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	"github.com/kataras/iris"
-	"github.com/xuender/wx"
+	"github.com/xuender/common/wx"
 )
 
 // AuthService 身份认证
