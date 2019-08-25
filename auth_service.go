@@ -144,7 +144,7 @@ func (s *AuthService) wxLogin(ctx iris.Context) {
 			}
 			user = *u
 			ctx.Application().Logger().Info("用户信息", user)
-			s.DB.Create(user)
+			s.DB.Create(&user)
 			s.Creater.Create(&user)
 			// var plan Plan
 			// plan.Title = "我的大计划"
